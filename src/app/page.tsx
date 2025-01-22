@@ -1,101 +1,339 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+const Home = () => {
+  const rooms = [
+    {
+      name: "Ocean View Suite",
+      description: "Spacious room with a stunning ocean view",
+      image: "images/room_1_a.jpg",
+    },
+    {
+      name: "Luxury Penthouse",
+      description: "Elegant suite with premium amenities",
+      image: "images/room_1_b.jpg",
+    },
+    {
+      name: "Deluxe Room",
+      description: "Comfortable and stylish room with modern facilities",
+      image: "images/room_2_a.jpg",
+    },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const images = ["images/slider_2.jpg", "images/slider_1.jpg"];
+
+  const handleNextSlide = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setIsTransitioning(false);
+    }, 500); // Match the transition duration
+  };
+
+  const handlePrevSlide = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      );
+      setIsTransitioning(false);
+    }, 500); // Match the transition duration
+  };
+
+  useEffect(() => {
+    // Auto-slide every 5 seconds
+    const interval = setInterval(handleNextSlide, 5000);
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div>
+      {/* Navigation Bar */}
+      <nav
+        className={`fixed w-full z-10 top-0 left-0 transition-all duration-300 p-8 md:py-5 ${
+          isScrolled
+            ? "bg-white text-black shadow-lg"
+            : "bg-transparent text-white"
+        }`}
+      >
+        <div className="max-w-screen-xl mx-auto flex justify-center  items-center relative">
+          <p className="text-2xl font-bold justify-self-start absolute left-0">
+            TribeOne
+          </p>
+          <div className="hidden md:flex space-x-4 justify-center ">
+            <a
+              href="#home"
+              className="hover:underline font-semibold px-5 underline-offset-8"
+            >
+              Home
+            </a>
+            <a
+              href="#rooms"
+              className="hover:underline font-semibold px-5 underline-offset-8"
+            >
+              Rooms
+            </a>
+            <a
+              href="#contact"
+              className="hover:underline font-semibold px-5 underline-offset-8"
+            >
+              Contact
+            </a>
+          </div>
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-white absolute right-0"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6 text-black"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white text-black m-5 p-5 space-y-4">
+            <a href="#home" className="block hover:text-gray-400">
+              Home
+            </a>
+            <a href="#rooms" className="block hover:text-gray-400">
+              Rooms
+            </a>
+            <a href="#contact" className="block hover:text-gray-400">
+              Contact
+            </a>
+          </div>
+        )}
+      </nav>
+
+      {/* Full-Screen Carousel */}
+      <div className="relative h-screen overflow-hidden">
+        <div
+          className={`absolute top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
+            isTransitioning ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ backgroundImage: `url(${images[currentIndex]})` }}
+        ></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-block opacity-50"></div>
+        <div className="absolute top-1/2 transform -translate-y-1/2 w-full text-center text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
+            Welcome to TribeOne
+          </h1>
+          <p className="mt-4 text-lg sm:text-xl">
+            Experience the finest hospitality and elegance
+          </p>
+        </div>
+        {/* Carousel Controls */}
+        <button
+          onClick={handlePrevSlide}
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full text-white"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          &lt;
+        </button>
+        <button
+          onClick={handleNextSlide}
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full text-white"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          &gt;
+        </button>
+      </div>
+
+      {/* Rooms Section */}
+      <section id="rooms" className="py-16 bg-gray-100">
+        <div className="max-w-screen-xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-black">
+            Our Rooms
+          </h2>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {rooms.map((room, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-lg overflow-hidden"
+              >
+                <img
+                  src={room.image}
+                  alt={room.name}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-black">
+                    {room.name}
+                  </h3>
+                  <p className="mt-2 text-gray-600">{room.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="amenities" className="py-16 bg-gray-100">
+        <div className="max-w-screen-xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8">
+            Our Amenities
+          </h2>
+          <p className="text-center text-gray-600 mb-12">
+            Enjoy world-class services and exceptional amenities during your
+            stay.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Amenity 1 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-blue-500 mb-4">
+                <i className="fas fa-swimming-pool"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Infinity Pool</h3>
+              <p className="text-gray-600">
+                Relax and rejuvenate in our luxurious infinity pool with a
+                breathtaking view.
+              </p>
+            </div>
+            {/* Amenity 2 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-yellow-500 mb-4">
+                <i className="fas fa-utensils"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Fine Dining</h3>
+              <p className="text-gray-600">
+                Savor gourmet meals prepared by world-renowned chefs in our fine
+                dining restaurant.
+              </p>
+            </div>
+            {/* Amenity 3 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-green-500 mb-4">
+                <i className="fas fa-spa"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Luxury Spa</h3>
+              <p className="text-gray-600">
+                Unwind with a wide range of rejuvenating treatments in our
+                luxury spa.
+              </p>
+            </div>
+            {/* Amenity 4 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-purple-500 mb-4">
+                <i className="fas fa-dumbbell"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Fitness Center</h3>
+              <p className="text-gray-600">
+                Stay fit with state-of-the-art equipment in our fully equipped
+                fitness center.
+              </p>
+            </div>
+            {/* Amenity 5 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-red-500 mb-4">
+                <i className="fas fa-concierge-bell"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">24/7 Concierge</h3>
+              <p className="text-gray-600">
+                Our dedicated concierge team is available round-the-clock to
+                assist you.
+              </p>
+            </div>
+            {/* Amenity 6 */}
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+              <div className="text-4xl text-indigo-500 mb-4">
+                <i className="fas fa-wifi"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Free Wi-Fi</h3>
+              <p className="text-gray-600">
+                Enjoy complimentary high-speed internet throughout the hotel
+                premises.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-gray-900 text-white py-8">
+        <div className="max-w-screen-xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* About Section */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">About TribeOne</h3>
+              <p className="text-gray-400">
+                Experience the finest hospitality and luxury with our
+                world-class amenities. Your comfort and satisfaction are our
+                priority.
+              </p>
+            </div>
+
+            {/* Links Section */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a href="#home" className="hover:underline text-gray-400">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#rooms" className="hover:underline text-gray-400">
+                    Rooms
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="hover:underline text-gray-400">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a href="#about" className="hover:underline text-gray-400">
+                    About Us
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Section */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+              <p className="text-gray-400">
+                123 Luxury Street, Paradise City, Country
+              </p>
+              <p className="text-gray-400 mt-2">Phone: +123-456-7890</p>
+              <p className="text-gray-400 mt-2">Email: info@luxuryhotel.com</p>
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-gray-700 pt-4 text-center">
+            <p className="text-gray-500">
+              © {new Date().getFullYear()} TribeOne. All rights reserved.
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
