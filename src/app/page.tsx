@@ -196,7 +196,7 @@ const Home = () => {
       </section>
       <section id="amenities" className="py-16 bg-gray-100">
         <div className="max-w-screen-xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-black">
             Our Amenities
           </h2>
           <p className="text-center text-gray-600 mb-12">
@@ -209,7 +209,9 @@ const Home = () => {
               <div className="text-4xl text-blue-500 mb-4">
                 <i className="fas fa-swimming-pool"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Infinity Pool</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                Infinity Pool
+              </h3>
               <p className="text-gray-600">
                 Relax and rejuvenate in our luxurious infinity pool with a
                 breathtaking view.
@@ -220,7 +222,9 @@ const Home = () => {
               <div className="text-4xl text-yellow-500 mb-4">
                 <i className="fas fa-utensils"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fine Dining</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                Fine Dining
+              </h3>
               <p className="text-gray-600">
                 Savor gourmet meals prepared by world-renowned chefs in our fine
                 dining restaurant.
@@ -231,7 +235,9 @@ const Home = () => {
               <div className="text-4xl text-green-500 mb-4">
                 <i className="fas fa-spa"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Luxury Spa</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                Luxury Spa
+              </h3>
               <p className="text-gray-600">
                 Unwind with a wide range of rejuvenating treatments in our
                 luxury spa.
@@ -242,7 +248,9 @@ const Home = () => {
               <div className="text-4xl text-purple-500 mb-4">
                 <i className="fas fa-dumbbell"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fitness Center</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                Fitness Center
+              </h3>
               <p className="text-gray-600">
                 Stay fit with state-of-the-art equipment in our fully equipped
                 fitness center.
@@ -253,7 +261,9 @@ const Home = () => {
               <div className="text-4xl text-red-500 mb-4">
                 <i className="fas fa-concierge-bell"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">24/7 Concierge</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                24/7 Concierge
+              </h3>
               <p className="text-gray-600">
                 Our dedicated concierge team is available round-the-clock to
                 assist you.
@@ -264,7 +274,9 @@ const Home = () => {
               <div className="text-4xl text-indigo-500 mb-4">
                 <i className="fas fa-wifi"></i>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Free Wi-Fi</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">
+                Free Wi-Fi
+              </h3>
               <p className="text-gray-600">
                 Enjoy complimentary high-speed internet throughout the hotel
                 premises.
