@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Button, Form, Input, Modal, FormInstance, message } from "antd";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
   const rooms = [
@@ -22,9 +24,12 @@ const Home = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const contactRef = useRef<FormInstance>(null);
   const images = ["images/slider_2.jpg", "images/slider_1.jpg"];
 
   const handleNextSlide = () => {
@@ -62,9 +67,23 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  const onFinish = async (values: { mobile: number; email: number }) => {
+    await axios.post("https://tribeback.onrender.com/api/email/send_email", {
+      mobile: values.mobile,
+      email: values.email,
+    });
+    messageApi.open({
+      type: "success",
+      content: "Thank you for booking!",
+    });
+    contactRef.current?.resetFields();
+    setShowModal(false);
+  };
 
   return (
     <div>
+      {contextHolder}
+
       {/* Navigation Bar */}
       <nav
         className={`fixed w-full z-10 top-0 left-0 transition-all duration-300 p-8 md:py-5 ${
@@ -135,7 +154,7 @@ const Home = () => {
       </nav>
 
       {/* Full-Screen Carousel */}
-      <div className="relative h-screen overflow-hidden">
+      <div className="relative h-screen overflow-hidden" id="home">
         <div
           className={`absolute top-0 left-0 w-full h-full bg-cover bg-center transition-opacity duration-500 ${
             isTransitioning ? "opacity-0" : "opacity-100"
@@ -176,18 +195,28 @@ const Home = () => {
             {rooms.map((room, index) => (
               <div
                 key={index}
-                className="bg-white shadow-lg rounded-lg overflow-hidden"
+                className="bg-white shadow-lg rounded-lg overflow-hidden relative"
               >
                 <img
                   src={room.image}
                   alt={room.name}
                   className="w-full h-64 object-cover"
                 />
-                <div className="p-6">
+                <div className="p-6 m-6">
                   <h3 className="text-xl font-semibold text-black">
                     {room.name}
                   </h3>
                   <p className="mt-2 text-gray-600">{room.description}</p>
+                </div>
+                <div className="absolute bottom-3 w-full text-center">
+                  <Button
+                    color="default"
+                    variant="solid"
+                    className=" p-2"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Book Now
+                  </Button>
                 </div>
               </div>
             ))}
@@ -286,7 +315,7 @@ const Home = () => {
         </div>
       </section>
 
-      <footer className="bg-gray-900 text-white py-8">
+      <footer className="bg-gray-900 text-white py-8" id="contact">
         <div className="max-w-screen-xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* About Section */}
@@ -330,10 +359,13 @@ const Home = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
               <p className="text-gray-400">
-                123 Luxury Street, Paradise City, Country
+                srinivas nilayam, Izzathnagar, HITEC City, Hyderabad, Telangana
+                500084
               </p>
-              <p className="text-gray-400 mt-2">Phone: +123-456-7890</p>
-              <p className="text-gray-400 mt-2">Email: info@luxuryhotel.com</p>
+              <p className="text-gray-400 mt-2">Phone: 9009999471</p>
+              <p className="text-gray-400 mt-2">
+                Email: tribeone.info@gmail.com
+              </p>
             </div>
           </div>
 
@@ -344,6 +376,63 @@ const Home = () => {
           </div>
         </div>
       </footer>
+      <Modal
+        title={null}
+        open={showModal}
+        onCancel={() => setShowModal(false)}
+        footer={[
+          <Button
+            key="submit"
+            color="default"
+            variant="solid"
+            onClick={() => {
+              contactRef.current?.submit();
+            }}
+          >
+            {"Submit"}
+          </Button>,
+        ]}
+      >
+        <Form
+          layout="vertical"
+          className="mt-5"
+          ref={contactRef}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            label={<span className="font-bold">{"Mobile Number"}</span>}
+            name="mobile"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your phone number!",
+              },
+              {
+                pattern: /^[0-9]{10}$/, // Adjust regex to your phone format
+                message: "Phone number must be 10 digits!",
+              },
+            ]}
+          >
+            <Input placeholder="Enter your mobile" />
+          </Form.Item>
+          <Form.Item
+            label={<span className="font-bold">{"Emil Id"}</span>}
+            name={"email"}
+            rules={[
+              {
+                required: true,
+                message: "Please enter your email!",
+              },
+              {
+                type: "email",
+                message: "The input is not a valid email!",
+              },
+            ]}
+          >
+            <Input placeholder="Enter your email" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
