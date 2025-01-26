@@ -6,18 +6,18 @@ import axios from "axios";
 const Home = () => {
   const rooms = [
     {
-      name: "Suite Room",
-      description: "Spacious room with a stunning ocean view",
+      name: "Royalé",
+      description: "Price : ₹2199",
       image: "images/airbnb/room-8.jpg",
     },
     {
-      name: "Deluxe Room",
-      description: "Elegant suite with premium amenities",
+      name: "Corporate",
+      description: "Price : ₹1899",
       image: "images/airbnb/room-9.jpg",
     },
     {
-      name: "Twin room",
-      description: "Comfortable and stylish room with modern facilities",
+      name: "Executive",
+      description: "Price : ₹1599",
       image: "images/airbnb/room-7.jpg",
     },
   ];
@@ -177,15 +177,15 @@ const Home = () => {
         {/* Carousel Controls */}
         <button
           onClick={handlePrevSlide}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full text-white"
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 font-semibold  p-3 rounded-full text-white"
         >
-          &lt;
+          <i className="fa-solid fa-chevron-left"></i>
         </button>
         <button
           onClick={handleNextSlide}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full text-white"
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 font-semibold  p-3 rounded-full text-white"
         >
-          &gt;
+          <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>
 
@@ -206,21 +206,21 @@ const Home = () => {
                   alt={room.name}
                   className="w-full h-64 object-cover"
                 />
-                <div className=" m-6 pb-6">
-                  <h3 className="text-xl font-semibold text-black">
+                <div className=" m-3 pb-6">
+                  <h3 className="text-xl font-semibold text-black mb-2">
                     {room.name}
                   </h3>
-                  <p className="mt-2 text-gray-600">{room.description}</p>
-                </div>
-                <div className="absolute bottom-3 w-full text-center">
-                  <Button
-                    color="default"
-                    variant="solid"
-                    className=" p-2"
-                    onClick={() => setShowModal(true)}
-                  >
-                    Book Now
-                  </Button>
+                  <p className="mt-2 text-gray-600 ">{room.description}</p>
+                  <div className="w-full text-center mt-2">
+                    <Button
+                      color="default"
+                      variant="solid"
+                      className=" p-2"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Book Now
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
