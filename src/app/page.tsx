@@ -6,19 +6,19 @@ import axios from "axios";
 const Home = () => {
   const rooms = [
     {
-      name: "Ocean View Suite",
+      name: "Suite Room",
       description: "Spacious room with a stunning ocean view",
-      image: "images/room_1_a.jpg",
-    },
-    {
-      name: "Luxury Penthouse",
-      description: "Elegant suite with premium amenities",
-      image: "images/room_1_b.jpg",
+      image: "images/airbnb/room-8.jpg",
     },
     {
       name: "Deluxe Room",
+      description: "Elegant suite with premium amenities",
+      image: "images/airbnb/room-9.jpg",
+    },
+    {
+      name: "Twin room",
       description: "Comfortable and stylish room with modern facilities",
-      image: "images/room_2_a.jpg",
+      image: "images/airbnb/room-7.jpg",
     },
   ];
 
@@ -30,7 +30,11 @@ const Home = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const contactRef = useRef<FormInstance>(null);
-  const images = ["images/slider_2.jpg", "images/slider_1.jpg"];
+  const images = [
+    "images/airbnb/room-8.jpg",
+    "images/airbnb/room-9.jpg",
+    "images/airbnb/room-7.jpg",
+  ];
 
   const handleNextSlide = () => {
     setIsTransitioning(true);
@@ -202,7 +206,7 @@ const Home = () => {
                   alt={room.name}
                   className="w-full h-64 object-cover"
                 />
-                <div className="p-6 m-6">
+                <div className=" m-6 pb-6">
                   <h3 className="text-xl font-semibold text-black">
                     {room.name}
                   </h3>
