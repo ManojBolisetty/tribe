@@ -98,7 +98,7 @@ const Home = () => {
       >
         <div className="max-w-screen-xl mx-auto flex justify-center  items-center relative">
           <p className="text-2xl font-bold justify-self-start absolute left-0">
-            TribeOne
+            tribeŌne
           </p>
           <div className="hidden md:flex space-x-4 justify-center ">
             <a
